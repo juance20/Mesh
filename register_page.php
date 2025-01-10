@@ -35,11 +35,17 @@
 
         }
         else{
-            
-            $query = "INSERT INTO users values(\"$user\", \"$email\", \"$pass_md5\")";
+
+            $cookie_name = "session";
+            $time = time();
+            $cookie_value = md5($user.$time);
+            setcookie($cookie_name, $cookie_value, $time + 86400, "/");
+
+            $query = "INSERT INTO users values(\"$user\", \"$email\", \"$pass_md5\",\"$cookie_value\", $time)";
             $result = $conn->query($query);
 
-            echo "Registrado exitosamente!";
+            header('Location: profile.php');
+            exit;
         }
     }
 

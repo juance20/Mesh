@@ -6,6 +6,7 @@
     <title>Validando</title>
 </head>
 <body>
+
     <?php
     $user = $_POST["user"]; 
     $pass_md5 = md5($_POST["pass"]);
@@ -20,15 +21,26 @@
 
     $result = $conn->query($query);
     if ($result->num_rows > 0) {
-        echo "goooood";
+        
+        $cookie_name = "session";
+        $time = time();
+        $cookie_value = md5($user.$time);
+        setcookie($cookie_name, $cookie_value, $time + 86400 , "/");
+
+        $query = "UPDATE users SET session_md5=\"$cookie_value\", last_login=$time where username=\"$user\"";
+        $conn->query($query);
+
+        header('Location: profile.php');
+        exit;
     }
 
     else {
-        echo "0 results";
+        echo "Usuario o contraseña incorrecta <br><br>";
+        echo "<a href=\"index.html\">Volver</a>";
     }
 
     $conn->close();
-
     ?>
+
 </body>
 </html>
