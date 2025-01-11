@@ -20,6 +20,7 @@
             <br>
           </td>
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
+            <a href="profile.php">
             <?php $session_md5 = $_COOKIE["session"];
 
               $dbhost = "localhost";
@@ -30,40 +31,41 @@
 
               $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
               $result = $conn->query($query);
-              if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()) {
-                  $name = $row["username"];
-                  echo "$name";
-                }
+              while($row = $result->fetch_assoc()) {
+                $name = $row["username"];
+                echo "$name";
               }
 
             ?>
-            <img style="height: 50%;" alt="profile photo" src="profile.jpg"><br>
+            <img style="height: 50%;" alt="profile photo" src="profile.jpg"></a><br>
           </td>
         </tr>
         <tr>
           <td style="vertical-align: top; height: 359px; text-align: center; width: 339px;"><br>
           </td>
           <td colspan="1" rowspan="2" style="vertical-align: top; height: 359px; text-align: left; width: 917px;">
+              <h1 align="center">Nuevo post</h1>
+              <form method="post">
+                <br>
+                <input type="text" name="title" placeholder="Título" size=50><br><br>
+                <textarea name="text" rows=10 cols=100 placeholder="Texto"></textarea><br><br>
+                <input type="submit" value="Publicar">
+              </form>
+              <?php
+                if(isset($_POST["title"])){
+                    $values = sprintf('"%s", "%s", "%s"', $name, $_POST["title"], $_POST["text"]);
+                    $query = "INSERT INTO posts (owner, title, text) values($values)";
+                    $result = $conn->query($query);
+                    header('Location: profile.php');
+                    exit;
+                }
+                
+              ?>
 
-            <h1 align="center">Mi perfil</h1>
-
-            <?php $query = "SELECT * FROM posts where owner=\"$name\" order by fecha desc";
-              $result = $conn->query($query);
-              while($row = $result->fetch_assoc()) {
-                $title = $row["title"];
-                $text = $row["text"];
-                $fecha = $row["fecha"];
-                $likes = $row["likes"];
-                $comments = $row["comments_cant"];
-                echo "<hr><h3>$title</h3><p>$fecha</p>$text<br>$likes 👍 $comments 💬";
-              }
-            ?>
           </td>
           <td style="vertical-align: top; height: 359px; text-align: right; width: 336px;">
             <a href="posting.php">Nuevo post ✎</a>
-            <br><br>
-            <a href="logout.php">Cerrar sesión</a>
+            <br>
           </td>
         </tr>
         <tr>

@@ -37,7 +37,7 @@
 </head>
 <body>
     <h1>Inicio de sesión</h1>
-    <form action="action_page.php" method="post">
+    <form action="login_page.php" method="post">
         <input type="text" name="user" placeholder="Nombre de usuario"><br><br>
         <input type="password" name="pass" placeholder="Contraseña"><br><br>
         <input type="submit" value="Iniciar sesión">
