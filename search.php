@@ -73,7 +73,10 @@
             
             <br>
           </td>
-          <td style="vertical-align: top; height: 359px; text-align: center; width: 336px;"><br>
+          <td style="vertical-align: top; height: 359px; text-align: right; width: 336px;">
+            <a href="posting.php">Nuevo post ✎</a>
+            <br><br>
+            <a href="logout.php">Cerrar sesión</a>
           </td>
         </tr>
         <tr>

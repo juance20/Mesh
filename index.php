@@ -36,13 +36,13 @@
 
 </head>
 <body>
-    <h1>Inicio de sesión</h1>
-    <form action="login_page.php" method="post">
+    <h1 align="center">Inicio de sesión</h1>
+    <form action="login_page.php" method="post" align="center">
         <input type="text" name="user" placeholder="Nombre de usuario"><br><br>
         <input type="password" name="pass" placeholder="Contraseña"><br><br>
         <input type="submit" value="Iniciar sesión">
     </form>
     <br>
-    <a href="registro.html">Registrarse</a>
+    <a href="registro.html"><p align="center">Registrarse</p></a>
 </body>
 </html>

@@ -3,7 +3,7 @@
 
   
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mi perfil</title></head><body style="height: 716px;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Proyecto blogs</title></head><body style="height: 716px;">
     
     
     <table style="text-align: left; width: 100%; height: 100%;" border="0" cellpadding="2" cellspacing="2">
@@ -20,6 +20,7 @@
             <br>
           </td>
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
+            <a href="profile.php">
             <?php $session_md5 = $_COOKIE["session"];
 
               $dbhost = "localhost";
@@ -38,6 +39,7 @@
               }
 
             ?>
+            </a>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"><br>
           </td>
         </tr>
@@ -46,9 +48,9 @@
           </td>
           <td colspan="1" rowspan="2" style="vertical-align: top; height: 359px; text-align: left; width: 917px;">
 
-            <h1 align="center">Mi perfil</h1>
-
-            <?php $query = "SELECT * FROM posts where owner=\"$name\" order by fecha desc";
+            <?php
+              $post_id = $_GET["post_id"];
+              $query = "SELECT * FROM posts where id=$post_id";
               $result = $conn->query($query);
               while($row = $result->fetch_assoc()) {
                 $title = $row["title"];
@@ -57,14 +59,45 @@
                 $likes = $row["likes"];
                 $comments = $row["comments_cant"];
                 $edited = $row["edited"];
-                $id = $row["id"];
+                $owner = $row["owner"];
                 if($edited != 0){
-                  echo "<hr><a href=\"full_post.php?post_id=$id\"><h3>$title (Editado)</h3></a><p>$fecha</p>$text<br>$likes 👍 $comments 💬 ";
+                  echo "<h1>$title (Editado)</h1><p>$owner - $fecha</p><p style=\"font-size:20px;\">$text</p><br>$likes 👍 $comments 💬 ";
                 }
                 else{
-                  echo "<hr><a href=\"full_post.php?post_id=$id\"><h3>$title</h3></a><p>$fecha</p>$text<br>$likes 👍 $comments 💬 ";
+                  echo "<h1>$title</h1><p>$owner - $fecha</p><p style=\"font-size:20px;\">$text</p><br>$likes 👍 $comments 💬 ";
                 }
-                echo "<a href=\"edit.php?id=$id\">Editar ✎</a>";
+                if($owner == $name){
+                  echo "<a href=\"edit.php?id=$post_id\">Editar ✎</a><br><br>";
+                  echo "<h2>Comentarios</h2>";
+                }
+                else{
+                  echo "<h2>Comentarios</h2>";
+                  echo "<p style=\"font-size:16px;\">Posteá un comentario!</p>";
+                  echo "<form method=\"post\">";
+                  echo "<textarea name=\"text\" rows=4 cols=60 placeholder=\"Comentario\"></textarea><br><br>";
+                  echo "<input type=\"submit\" value=\"Publicar\">";
+                  if(isset($_POST["text"])){
+                    $values = sprintf('"%s", "%s", "%s"', $post_id, $name, $_POST["text"]);
+                    $query = "INSERT INTO comments (post_id, owner, text) values($values)";
+                    $result = $conn->query($query);
+                    $query = "UPDATE posts set comments_cant=comments_cant+1 where id=$post_id";
+                    $result = $conn->query($query);
+                    header("Location: full_post.php?post_id=$post_id");
+                    exit;
+                  }
+                }
+                
+                $query_comments = "SELECT * FROM comments where post_id=$post_id order by fecha desc";
+                $result_comments = $conn->query($query_comments);
+                while($row_comments = $result_comments->fetch_assoc()){
+                    
+                    $comment_owner = $row_comments["owner"];
+                    $comment_text = $row_comments["text"];
+                    $comment_fecha = $row_comments["fecha"];
+
+                    echo "<p><b>$comment_owner</b> - $comment_fecha</p>$comment_text";
+
+                }
               }
             ?>
           </td>

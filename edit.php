@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
+<html lang="es"><head>
+
+  
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto blogs</title>
-  </head>
-  <body style="height: 716px;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Editar post</title></head><body style="height: 716px;">
     
     
     <table style="text-align: left; width: 100%; height: 100%;" border="0" cellpadding="2" cellspacing="2">
@@ -15,16 +13,15 @@
           </td>
           <td style="vertical-align: top; height: 113px; text-align: center; width: 917px;">
             <form action="search.php" method="post">
-              <input type="text" name="search" placeholder="Buscar">
-              <input type="submit" value="🔎">
+              <input name="search" placeholder="Buscar" type="text">
+              <input value="🔎" type="submit">
             </form>
       
             <br>
           </td>
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <a href="profile.php">
-            <?php
-              $session_md5 = $_COOKIE["session"];
+            <?php $session_md5 = $_COOKIE["session"];
 
               $dbhost = "localhost";
               $dbuser = "juan";
@@ -38,7 +35,7 @@
                 $name = $row["username"];
                 echo "$name";
               }
-
+            
             ?>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"></a><br>
           </td>
@@ -47,46 +44,56 @@
           <td style="vertical-align: top; height: 359px; text-align: center; width: 339px;"><br>
           </td>
           <td colspan="1" rowspan="2" style="vertical-align: top; height: 359px; text-align: left; width: 917px;">
-            <?php
-                
-                $perfilde = $_GET["user"];
-                echo "<h1 align=\"center\">Perfil de $perfilde</h1>";
+              <h1 align="center">Editar post</h1>
 
-                $query = "SELECT * FROM posts where owner=\"$perfilde\" order by fecha desc";
-                $result = $conn->query($query);
-                while($row = $result->fetch_assoc()) {
-                  $title = $row["title"];
-                  $text = $row["text"];
-                  $fecha = $row["fecha"];
-                  $likes = $row["likes"];
-                  $comments = $row["comments_cant"];
-                  $edited = $row["edited"];
-                  $id = $row["id"];
-                  $like_link = $_SERVER['REQUEST_URI']."";
-                  if($edited != 0){
-                    echo "<hr><a href=\"full_post.php?post_id=$id\"><h3>$title (Editado)</h3></a><p>$fecha</p>$text<br>";
-                  }
-                  else{
-                    echo "<hr><a href=\"full_post.php?post_id=$id\"><h3>$title</h3></a><p>$fecha</p>$text<br>";
-                  }
-                  echo "$likes 👍 ";
-                  echo "$comments 💬";
+              <?php
+                if(isset($_GET["id"])){
+                    $id = $_GET["id"];
+                    $query = "SELECT * FROM posts where id=$id";
+                    $result = $conn->query($query);
+                    while($row = $result->fetch_assoc()) {
+                        $title = $row["title"];
+                        $text = $row["text"];
+                    }
                 }
-            ?>
+
+              
+              ?>
+
+              <form method="post">
+                <br>
+                <?php 
+                    echo "<input type=\"text\" name=\"title\" placeholder=\"Título\" value=\"$title\" size=50><br><br>";
+                    echo "<textarea name=\"text\" rows=10 cols=100 placeholder=\"Texto\">$text</textarea><br><br>";
+                ?>
+                
+                <input type="submit" value="Publicar">
+              </form>
+              <?php
+                if(isset($_POST["title"])){
+                    $title = $_POST["title"];
+                    $text = $_POST["text"];
+                    $query = "UPDATE posts set title=\"$title\", text=\"$text\", edited=1 where id=$id";
+                    $result = $conn->query($query);
+                    header('Location: profile.php');
+                    exit;
+                }
+                
+              ?>
+
           </td>
           <td style="vertical-align: top; height: 359px; text-align: right; width: 336px;">
             <a href="posting.php">Nuevo post ✎</a>
-            <br><br>
-            <a href="logout.php">Cerrar sesión</a>
+            <br>
           </td>
         </tr>
         <tr>
           <td style="vertical-align: top; text-align: center; width: 339px;"><br>
           </td>
-          <td style="vertical-align: top; text-align: center; width: 336px;"><br>
+          <td style="vertical-align: top; text-align: center; width: 336px;">
+            <br>
           </td>
         </tr>
       </tbody>
     </table>
-  </body>
-</html>
+  </body></html>

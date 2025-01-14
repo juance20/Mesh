@@ -3,7 +3,7 @@
 
   
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mi perfil</title></head><body style="height: 716px;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Proyecto blogs</title></head><body style="height: 716px;">
     
     
     <table style="text-align: left; width: 100%; height: 100%;" border="0" cellpadding="2" cellspacing="2">
