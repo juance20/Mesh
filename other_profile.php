@@ -38,6 +38,21 @@
                 $name = $row["username"];
                 echo "$name";
               }
+              
+              if(isset($_GET["like"])){
+                $post_id = $_GET["id_post"];
+                $query = "SELECT * FROM liked_posts where username=\"$name\" and post_id=$post_id";
+                $result = $conn->query($query);
+                if($result->num_rows == 0){
+                  $query = "INSERT INTO liked_posts values(\"$name\", $post_id)";
+                  $result = $conn->query($query);
+                  $query = "UPDATE posts set likes=likes+1 where id=$post_id";
+                  $result = $conn->query($query);
+                }
+                $perfilde = $_GET["user"];
+                header("Location: other_profile.php?user=$perfilde");
+                exit;
+              }
 
             ?>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"></a><br>
@@ -69,7 +84,8 @@
                   else{
                     echo "<hr><a href=\"full_post.php?post_id=$id\"><h3>$title</h3></a><p>$fecha</p>$text<br>";
                   }
-                  echo "$likes 👍 ";
+
+                  echo "<a href=$like_link&id_post=$id&like=1><button>$likes 👍 </button></a>";
                   echo "$comments 💬";
                 }
             ?>

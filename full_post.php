@@ -38,6 +38,23 @@
                 }
               }
 
+              $post_id = $_GET["post_id"];
+
+              if(isset($_GET["like"])){
+                $post_id = $_GET["id_post"];
+                $query = "SELECT * FROM liked_posts where username=\"$name\" and post_id=$post_id";
+                $result = $conn->query($query);
+                if($result->num_rows == 0){
+                  $query = "INSERT INTO liked_posts values(\"$name\", $post_id)";
+                  $result = $conn->query($query);
+                  $query = "UPDATE posts set likes=likes+1 where id=$post_id";
+                  $result = $conn->query($query);
+                }
+
+                header("Location: full_post.php?post_id=$post_id");
+                exit;
+              }
+
             ?>
             </a>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"><br>
@@ -49,7 +66,6 @@
           <td colspan="1" rowspan="2" style="vertical-align: top; height: 359px; text-align: left; width: 917px;">
 
             <?php
-              $post_id = $_GET["post_id"];
               $query = "SELECT * FROM posts where id=$post_id";
               $result = $conn->query($query);
               while($row = $result->fetch_assoc()) {
@@ -60,17 +76,23 @@
                 $comments = $row["comments_cant"];
                 $edited = $row["edited"];
                 $owner = $row["owner"];
+                $like_link = $_SERVER['REQUEST_URI']."";
                 if($edited != 0){
-                  echo "<h1>$title (Editado)</h1><p>$owner - $fecha</p><p style=\"font-size:20px;\">$text</p><br>$likes 👍 $comments 💬 ";
+                  echo "<h1>$title (Editado)</h1><p>$owner - $fecha</p><p style=\"font-size:20px;\">$text</p><br>";
                 }
                 else{
-                  echo "<h1>$title</h1><p>$owner - $fecha</p><p style=\"font-size:20px;\">$text</p><br>$likes 👍 $comments 💬 ";
+                  echo "<h1>$title</h1><p>$owner - $fecha</p><p style=\"font-size:20px;\">$text</p><br>";
                 }
+
+
+
                 if($owner == $name){
+                  echo "$likes 👍 $comments 💬 ";
                   echo "<a href=\"edit.php?id=$post_id\">Editar ✎</a><br><br>";
                   echo "<h2>Comentarios</h2>";
                 }
                 else{
+                  echo "<a href=$like_link&id_post=$post_id&like=1><button>$likes 👍 </button></a> $comments 💬 ";
                   echo "<h2>Comentarios</h2>";
                   echo "<p style=\"font-size:16px;\">Posteá un comentario!</p>";
                   echo "<form method=\"post\">";
