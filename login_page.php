@@ -23,11 +23,11 @@
     if ($result->num_rows > 0) {
         
         $cookie_name = "session";
-        $time = time();
+        $time = date("Y-m-d h:i:s", time());
         $cookie_value = md5($user.$time);
-        setcookie($cookie_name, $cookie_value, $time + 86400 , "/");
+        setcookie($cookie_name, $cookie_value, time() + 86400 , "/");
 
-        $query = "UPDATE users SET session_md5=\"$cookie_value\", last_login=$time where username=\"$user\"";
+        $query = "UPDATE users SET session_md5=\"$cookie_value\", last_login=\"$time\" where username=\"$user\"";
         $conn->query($query);
 
         header('Location: profile.php');
@@ -36,7 +36,7 @@
 
     else {
         echo "Usuario o contraseña incorrecta <br><br>";
-        echo "<a href=\"index.html\">Volver</a>";
+        echo "<a href=\"index.php\">Volver</a>";
     }
 
     $conn->close();

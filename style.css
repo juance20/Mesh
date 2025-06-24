@@ -43,8 +43,11 @@ h3 {
   font-size: 1.1em;
 }
 
-form {
+form{
   margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 form input[type="text"],
