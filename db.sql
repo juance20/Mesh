@@ -48,8 +48,8 @@ INSERT INTO `comments` (`post_id`, `owner`, `text`, `fecha`) VALUES
 --
 
 CREATE TABLE `liked_posts` (
-  `post_id` int(9) NOT NULL,
-  `username` varchar(32) NOT NULL
+  `username` varchar(32) NOT NULL,
+  `post_id` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
