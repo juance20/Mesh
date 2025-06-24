@@ -29,7 +29,7 @@
               $dbhost = "localhost";
               $dbuser = "juan";
               $dbpass = "root";
-              $dbname = "blog_site";
+              $dbname = "mesh";
               $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
 
               $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
