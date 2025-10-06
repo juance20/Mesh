@@ -29,7 +29,7 @@
         else{
 
             $cookie_name = "session";
-            $time = date("Y-m-d h:i:s", time());
+            $time = time();
             $cookie_value = md5($user.$time);
             setcookie($cookie_name, $cookie_value, $time + 86400, "/");
 

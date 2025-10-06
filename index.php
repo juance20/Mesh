@@ -13,7 +13,7 @@
             $result = $conn->query($query);
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()) {
-                    $time = date("Y-m-d h:i:s", time());
+                    $time = time();
                     if($row["last_login"] - $time < 86.400){
                         $query = "UPDATE users set last_login=\"$time\" where session_md5=\"$session_md5\"";
                         $result = $conn->query($query);
