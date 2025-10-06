@@ -18,7 +18,7 @@
         $cookie_value = md5($user.$time);
         setcookie($cookie_name, $cookie_value, $time + 86400 , "/");
 
-        $query = "UPDATE users SET session_md5=\"$cookie_value\", last_login=\"$time\" where username=\"$user\"";
+        $query = "UPDATE users SET session_md5=\"$cookie_value\", last_login=$time where username=\"$user\"";
         $conn->query($query);
 
         header('Location: profile.php');

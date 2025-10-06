@@ -14,7 +14,7 @@
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()) {
                     $time = time();
-                    if($row["last_login"] - $time < 86.400){
+                    if($row["last_login"] - $time < 86400){
                         $query = "UPDATE users set last_login=\"$time\" where session_md5=\"$session_md5\"";
                         $result = $conn->query($query);
                         header('Location: profile.php');
