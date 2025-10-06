@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head> <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validando</title>
-</head>
-<body>
-    <?php
+<?php
     $user = $_POST["user"]; 
     $pass_md5 = md5($_POST["pass"]);
     $email = $_POST["email"];
@@ -20,9 +12,10 @@
     $query = "SELECT * FROM users where username=\"$user\"";
     $result = $conn->query($query);
 
+    $text = "";
+
     if ($result->num_rows > 0) {
-        echo "Ya existe ese nombre de usuario<br><br>";
-        echo "<a href=\"registro.html\">Volver</a>";
+        $text = "Ya existe ese nombre de usuario<br><br><a href=\"registro.html\">Volver</a>";
     }
 
     else {
@@ -30,8 +23,7 @@
         $result = $conn->query($query);
 
         if($result->num_rows > 0){
-            echo "El email ya está registrado <br><br>";
-            echo "<a href=\"index.php\">Iniciar sesión</a>";
+            $text = "El email ya está registrado <br><br><a href=\"index.php\">Iniciar sesión</a>";
 
         }
         else{
@@ -51,6 +43,18 @@
 
     $conn->close();
 
+    ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head> <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validando</title>
+</head>
+<body>
+    <?php 
+        echo $text;
     ?>
 </body>
 </html>
