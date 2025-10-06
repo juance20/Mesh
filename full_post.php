@@ -12,7 +12,6 @@
   if($result->num_rows > 0){
     while($row = $result->fetch_assoc()) {
       $name = $row["username"];
-      echo "$name";
     }
   }
 
