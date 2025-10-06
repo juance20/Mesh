@@ -14,6 +14,16 @@
     $name = $row["username"];
   }
 
+  if(isset($_GET["id"])){
+    $id = $_GET["id"];
+    $query = "SELECT * FROM posts where id=$id";
+    $result = $conn->query($query);
+    while($row = $result->fetch_assoc()) {
+        $title = $row["title"];
+        $text = $row["text"];
+    }
+  }
+
   if(isset($_POST["title"])){
       $title = $_POST["title"];
       $text = $_POST["text"];
@@ -59,21 +69,6 @@
           </td>
           <td colspan="1" rowspan="2" style="vertical-align: top; height: 359px; text-align: left; width: 917px;">
               <h1 align="center">Editar post</h1>
-
-              <?php
-                if(isset($_GET["id"])){
-                    $id = $_GET["id"];
-                    $query = "SELECT * FROM posts where id=$id";
-                    $result = $conn->query($query);
-                    while($row = $result->fetch_assoc()) {
-                        $title = $row["title"];
-                        $text = $row["text"];
-                    }
-                }
-
-              
-              ?>
-
               <form method="post">
                 <br>
                 <?php 
