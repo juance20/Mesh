@@ -1,3 +1,15 @@
+<?php
+                if(isset($_POST["title"])){
+                    $title = $_POST["title"];
+                    $text = $_POST["text"];
+                    $query = "UPDATE posts set title=\"$title\", text=\"$text\", edited=1 where id=$id";
+                    $result = $conn->query($query);
+                    header('Location: profile.php');
+                    exit;
+                }
+                
+?>
+
 <!DOCTYPE html>
 <html lang="es"><head> <link rel="stylesheet" href="style.css">
 
@@ -69,17 +81,7 @@
                 
                 <input type="submit" value="Publicar">
               </form>
-              <?php
-                if(isset($_POST["title"])){
-                    $title = $_POST["title"];
-                    $text = $_POST["text"];
-                    $query = "UPDATE posts set title=\"$title\", text=\"$text\", edited=1 where id=$id";
-                    $result = $conn->query($query);
-                    header('Location: profile.php');
-                    exit;
-                }
-                
-              ?>
+              
 
           </td>
           <td style="vertical-align: top; height: 359px; text-align: right; width: 336px;">

@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head> <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de sesión</title>
-</head>
-<body>
-
-    <?php
+<?php
     $user = $_POST["user"]; 
     $pass_md5 = md5($_POST["pass"]);
-    
+    $text = "";
     $dbhost = "db";
     $dbuser = "juan";
     $dbpass = "root";
@@ -35,12 +26,22 @@
     }
 
     else {
-        echo "Usuario o contraseña incorrecta <br><br>";
-        echo "<a href=\"index.php\">Volver</a>";
+        $text = "Usuario o contraseña incorrecta <br><br><a href=\"index.php\">Volver</a>";
     }
 
     $conn->close();
-    ?>
+?>
 
+<!DOCTYPE html>
+<html lang="es">
+<head> <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+</head>
+<body>
+    <?php
+    echo $text;
+    ?>
 </body>
 </html>

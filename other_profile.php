@@ -1,3 +1,28 @@
+<?php
+  $session_md5 = $_COOKIE["session"];
+
+  $dbhost = "db";
+  $dbuser = "juan";
+  $dbpass = "root";
+  $dbname = "mesh";
+  $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
+
+  if(isset($_GET["like"])){
+    $post_id = $_GET["id_post"];
+    $query = "SELECT * FROM liked_posts where username=\"$name\" and post_id=$post_id";
+    $result = $conn->query($query);
+    if($result->num_rows == 0){
+      $query = "INSERT INTO liked_posts values(\"$name\", $post_id)";
+      $result = $conn->query($query);
+      $query = "UPDATE posts set likes=likes+1 where id=$post_id";
+      $result = $conn->query($query);
+    }
+    $perfilde = $_GET["user"];
+    header("Location: other_profile.php?user=$perfilde");
+    exit;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head> <link rel="stylesheet" href="style.css">
@@ -24,34 +49,11 @@
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <a href="profile.php">
             <?php
-              $session_md5 = $_COOKIE["session"];
-
-              $dbhost = "db";
-              $dbuser = "juan";
-              $dbpass = "root";
-              $dbname = "mesh";
-              $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
-
               $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
               $result = $conn->query($query);
               while($row = $result->fetch_assoc()) {
                 $name = $row["username"];
                 echo "$name";
-              }
-              
-              if(isset($_GET["like"])){
-                $post_id = $_GET["id_post"];
-                $query = "SELECT * FROM liked_posts where username=\"$name\" and post_id=$post_id";
-                $result = $conn->query($query);
-                if($result->num_rows == 0){
-                  $query = "INSERT INTO liked_posts values(\"$name\", $post_id)";
-                  $result = $conn->query($query);
-                  $query = "UPDATE posts set likes=likes+1 where id=$post_id";
-                  $result = $conn->query($query);
-                }
-                $perfilde = $_GET["user"];
-                header("Location: other_profile.php?user=$perfilde");
-                exit;
               }
 
             ?>

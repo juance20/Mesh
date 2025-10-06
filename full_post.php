@@ -1,3 +1,33 @@
+<?php
+  $post_id = $_GET["post_id"];
+
+  if(isset($_GET["like"])){
+    $post_id = $_GET["id_post"];
+    $query = "SELECT * FROM liked_posts where username=\"$name\" and post_id=$post_id";
+    $result = $conn->query($query);
+    if($result->num_rows == 0){
+      $query = "INSERT INTO liked_posts values(\"$name\", $post_id)";
+      $result = $conn->query($query);
+      $query = "UPDATE posts set likes=likes+1 where id=$post_id";
+      $result = $conn->query($query);
+    }
+
+    header("Location: full_post.php?post_id=$post_id");
+    exit;
+  }
+
+  if(isset($_POST["text"])){
+    $values = sprintf('"%s", "%s", "%s"', $post_id, $name, $_POST["text"]);
+    $query = "INSERT INTO comments (post_id, owner, text) values($values)";
+    $result = $conn->query($query);
+    $query = "UPDATE posts set comments_cant=comments_cant+1 where id=$post_id";
+    $result = $conn->query($query);
+    header("Location: full_post.php?post_id=$post_id");
+    exit;
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="es"><head> <link rel="stylesheet" href="style.css">
 
@@ -38,22 +68,7 @@
                 }
               }
 
-              $post_id = $_GET["post_id"];
-
-              if(isset($_GET["like"])){
-                $post_id = $_GET["id_post"];
-                $query = "SELECT * FROM liked_posts where username=\"$name\" and post_id=$post_id";
-                $result = $conn->query($query);
-                if($result->num_rows == 0){
-                  $query = "INSERT INTO liked_posts values(\"$name\", $post_id)";
-                  $result = $conn->query($query);
-                  $query = "UPDATE posts set likes=likes+1 where id=$post_id";
-                  $result = $conn->query($query);
-                }
-
-                header("Location: full_post.php?post_id=$post_id");
-                exit;
-              }
+              
 
             ?>
             </a>
@@ -98,15 +113,7 @@
                   echo "<form method=\"post\">";
                   echo "<textarea name=\"text\" rows=4 cols=60 placeholder=\"Comentario\"></textarea><br><br>";
                   echo "<input type=\"submit\" value=\"Publicar\">";
-                  if(isset($_POST["text"])){
-                    $values = sprintf('"%s", "%s", "%s"', $post_id, $name, $_POST["text"]);
-                    $query = "INSERT INTO comments (post_id, owner, text) values($values)";
-                    $result = $conn->query($query);
-                    $query = "UPDATE posts set comments_cant=comments_cant+1 where id=$post_id";
-                    $result = $conn->query($query);
-                    header("Location: full_post.php?post_id=$post_id");
-                    exit;
-                  }
+                  
                 }
                 
                 $query_comments = "SELECT * FROM comments where post_id=$post_id order by fecha desc";

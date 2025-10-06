@@ -1,3 +1,22 @@
+<?php
+  $session_md5 = $_COOKIE["session"];
+
+  $dbhost = "db";
+  $dbuser = "juan";
+  $dbpass = "root";
+  $dbname = "mesh";
+  $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
+
+  if(isset($_POST["title"])){
+      $values = sprintf('"%s", "%s", "%s"', $name, $_POST["title"], $_POST["text"]);
+      $query = "INSERT INTO posts (owner, title, text) values($values)";
+      $result = $conn->query($query);
+      header('Location: profile.php');
+      exit;
+  }
+  
+?>
+
 <!DOCTYPE html>
 <html lang="es"><head> <link rel="stylesheet" href="style.css">
 
@@ -21,13 +40,7 @@
           </td>
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <a href="profile.php">
-            <?php $session_md5 = $_COOKIE["session"];
-
-              $dbhost = "db";
-              $dbuser = "juan";
-              $dbpass = "root";
-              $dbname = "mesh";
-              $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
+            <?php 
 
               $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
               $result = $conn->query($query);
@@ -51,16 +64,6 @@
                 <textarea name="text" rows=10 cols=100 placeholder="Texto"></textarea><br><br>
                 <input type="submit" value="Publicar">
               </form>
-              <?php
-                if(isset($_POST["title"])){
-                    $values = sprintf('"%s", "%s", "%s"', $name, $_POST["title"], $_POST["text"]);
-                    $query = "INSERT INTO posts (owner, title, text) values($values)";
-                    $result = $conn->query($query);
-                    header('Location: profile.php');
-                    exit;
-                }
-                
-              ?>
 
           </td>
           <td style="vertical-align: top; height: 359px; text-align: right; width: 336px;">
