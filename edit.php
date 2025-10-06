@@ -1,13 +1,28 @@
 <?php
-                if(isset($_POST["title"])){
-                    $title = $_POST["title"];
-                    $text = $_POST["text"];
-                    $query = "UPDATE posts set title=\"$title\", text=\"$text\", edited=1 where id=$id";
-                    $result = $conn->query($query);
-                    header('Location: profile.php');
-                    exit;
-                }
-                
+  $session_md5 = $_COOKIE["session"];
+
+  $dbhost = "db";
+  $dbuser = "juan";
+  $dbpass = "root";
+  $dbname = "mesh";
+  $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
+
+  $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
+  $result = $conn->query($query);
+
+  while($row = $result->fetch_assoc()) {
+    $name = $row["username"];
+  }
+
+  if(isset($_POST["title"])){
+      $title = $_POST["title"];
+      $text = $_POST["text"];
+      $query = "UPDATE posts set title=\"$title\", text=\"$text\", edited=1 where id=$id";
+      $result = $conn->query($query);
+      header('Location: profile.php');
+      exit;
+  }
+  
 ?>
 
 <!DOCTYPE html>
@@ -33,21 +48,8 @@
           </td>
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <a href="profile.php">
-            <?php $session_md5 = $_COOKIE["session"];
-
-              $dbhost = "db";
-              $dbuser = "juan";
-              $dbpass = "root";
-              $dbname = "mesh";
-              $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
-
-              $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
-              $result = $conn->query($query);
-              while($row = $result->fetch_assoc()) {
-                $name = $row["username"];
-                echo "$name";
-              }
-            
+            <?php 
+              echo "$name";
             ?>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"></a><br>
           </td>
