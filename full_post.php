@@ -1,4 +1,21 @@
 <?php
+  $session_md5 = $_COOKIE["session"];
+
+  $dbhost = "db";
+  $dbuser = "juan";
+  $dbpass = "root";
+  $dbname = "mesh";
+  $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
+
+  $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
+  $result = $conn->query($query);
+  if($result->num_rows > 0){
+    while($row = $result->fetch_assoc()) {
+      $name = $row["username"];
+      echo "$name";
+    }
+  }
+
   $post_id = $_GET["post_id"];
 
   if(isset($_GET["like"])){
@@ -51,25 +68,8 @@
           </td>
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <a href="profile.php">
-            <?php $session_md5 = $_COOKIE["session"];
-
-              $dbhost = "db";
-              $dbuser = "juan";
-              $dbpass = "root";
-              $dbname = "mesh";
-              $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
-
-              $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
-              $result = $conn->query($query);
-              if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()) {
-                  $name = $row["username"];
-                  echo "$name";
-                }
-              }
-
-              
-
+            <?php 
+              echo "$name";
             ?>
             </a>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"><br>
