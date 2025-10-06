@@ -7,6 +7,12 @@
   $dbname = "mesh";
   $conn = new mysqli($dbhost, $dbuser, $dbpass,$dbname);
 
+  $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
+  $result = $conn->query($query);
+  while($row = $result->fetch_assoc()) {
+    $name = $row["username"];
+  }
+
   if(isset($_POST["title"])){
       $values = sprintf('"%s", "%s", "%s"', $name, $_POST["title"], $_POST["text"]);
       $query = "INSERT INTO posts (owner, title, text) values($values)";
@@ -41,14 +47,7 @@
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <a href="profile.php">
             <?php 
-
-              $query = "SELECT * FROM users where session_md5=\"$session_md5\"";
-              $result = $conn->query($query);
-              while($row = $result->fetch_assoc()) {
-                $name = $row["username"];
-                echo "$name";
-              }
-
+              echo "$name";
             ?>
             <img style="height: 50%;" alt="profile photo" src="profile.jpg"></a><br>
           </td>
