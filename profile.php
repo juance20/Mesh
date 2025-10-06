@@ -22,7 +22,7 @@
           <td style="vertical-align: middle; height: 113px; text-align: right; width: 336px;">
             <?php $session_md5 = $_COOKIE["session"];
 
-              $dbhost = "localhost";
+              $dbhost = "db";
               $dbuser = "juan";
               $dbpass = "root";
               $dbname = "mesh";

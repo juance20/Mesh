@@ -11,7 +11,7 @@
     $user = $_POST["user"]; 
     $pass_md5 = md5($_POST["pass"]);
     
-    $dbhost = "localhost";
+    $dbhost = "db";
     $dbuser = "juan";
     $dbpass = "root";
     $dbname = "mesh";

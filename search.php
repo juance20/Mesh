@@ -26,7 +26,7 @@
             <?php
               $session_md5 = $_COOKIE["session"];
 
-              $dbhost = "localhost";
+              $dbhost = "db";
               $dbuser = "juan";
               $dbpass = "root";
               $dbname = "mesh";
